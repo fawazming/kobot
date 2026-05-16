@@ -70,7 +70,7 @@ class WebhookService
         }
 
         $expectedAmount = (float) $transaction['payable_amount'];
-        $receivedAmount = (float) ($payload['amount_paid'] ?? 0);
+        $receivedAmount = (float) ($payload['amount'] ?? 0);
 
         if (abs($expectedAmount - $receivedAmount) > 0.01) {
             $this->updateLogStatus($logId, 'failed');
