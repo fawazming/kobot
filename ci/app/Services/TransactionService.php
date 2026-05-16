@@ -90,6 +90,14 @@ class TransactionService
         return $result ? $result->toArray() : null;
     }
 
+    public function getByAmount(float $amount): array
+    {
+        $results = $this->model->where('payable_amount', $amount)
+                               ->where('payment_status', 'pending')
+                               ->first();
+        return $results;
+    }
+
     public function getAll(int $perPage = 10, array $filters = [])
     {
         $query = $this->model->orderBy('id', 'DESC');

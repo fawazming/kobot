@@ -21,9 +21,10 @@ class WebhookService
     public function processWebhook(array $payload, ?string $signature): array
     {
         $payloadJson = json_encode($payload);
+        $payload['transaction_id'] = $payload['transaction_id'] ?? 'TXN-' . strtoupper(bin2hex(random_bytes(6)));
 
         $this->model->insert([
-            'transaction_id' => $payload['transaction_id'] ?? null,
+            'transaction_id' => $payload['transaction_id'],
             'payload'        => $payloadJson,
             'signature'      => $signature ?? '',
             'status'         => 'received',
@@ -35,7 +36,7 @@ class WebhookService
             return ['status' => false, 'message' => 'Missing transaction_id in payload'];
         }
 
-        $transaction = $this->transactionService->getByTransactionId($payload['transaction_id']);
+        $transaction = $this->transactionService->getByAmount($payload['amount_paid']);
         if (!$transaction) {
             $this->updateLogStatus($logId, 'failed');
             return ['status' => false, 'message' => 'Transaction not found'];
