@@ -36,7 +36,7 @@ class WebhookService
             return ['status' => false, 'message' => 'Missing transaction_id in payload'];
         }
 
-        $transaction = $this->transactionService->getByAmount($payload['amount_paid']);
+        $transaction = $this->transactionService->getByAmount($payload['amount']);
         if (!$transaction) {
             $this->updateLogStatus($logId, 'failed');
             return ['status' => false, 'message' => 'Transaction not found'];
