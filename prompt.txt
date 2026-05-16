@@ -1,0 +1,391 @@
+# Comprehensive Prompt for AI Coding Agent
+
+## Project Overview
+
+Develop a full-stack payment verification and registration management platform using **CodeIgniter 4** as the backend framework (already setup in this folder) and **Tailwind CSS** for the frontend dashboard UI.
+
+The platform should support:
+
+- Business onboarding
+- Payment transaction creation
+- Unique kobo-based payment verification
+- Webhook-based payment confirmation
+- Transaction polling
+- Registration data storage
+- Admin dashboard management
+
+The application should be modular, scalable, secure, and production-ready.
+
+---
+
+# Core Features
+
+## 1. Business Management System
+
+Create a business onboarding system where administrators can:
+
+- Create businesses
+- Edit businesses
+- Delete businesses
+- View businesses
+
+Each business should contain:
+
+- Business Name
+- Phone Number
+- Email
+- Public API Key
+- Secret API Key
+- Business ID
+- Webhook Secret Signature
+- Status
+- Created At Timestamp
+
+API keys must be securely generated automatically.
+
+---
+
+# 2. Transaction Creation API
+
+Create a secure REST API endpoint using CodeIgniter 4.
+
+## Endpoint Example
+
+POST `/api/v1/transaction/create`
+
+## Request Payload
+
+```json
+{
+  "business_id": "BUS_001",
+  "email": "user@example.com",
+  "amount": 5000
+}
+```
+
+## Functional Requirements
+
+- Validate API credentials
+- Validate business exists
+- Validate amount
+- Generate unique transaction ID
+- Add randomized kobo value for payment verification (after deducting 1 naira)
+- Save original amount and randomized payable amount
+- Save registration JSON data
+- Generate unique registration ID
+- Set initial transaction status as `pending`
+
+## Response Example
+
+```json
+{
+  "status": true,
+  "transaction_id": "TXN_ABC123",
+  "original_amount": 5000,
+  "payable_amount": 4999.37,
+  "currency": "NGN",
+  "message": "Transaction created successfully",
+  "business_id": "BUS_01"
+}
+```
+
+---
+
+# 3. Transaction Status Polling API
+
+Create a dedicated endpoint for frontend polling.
+
+## Endpoint Example
+
+GET `/api/v1/transaction/status/{transaction_id}`
+
+This endpoint will be polled every 5 seconds by frontend applications.
+
+## Response Example
+
+```json
+{
+  "status": true,
+  "transaction_id": "TXN_ABC123",
+  "payment_status": "success",
+  "amount_paid": 4999.37,
+  "business_id": "BUS_01"
+}
+```
+
+Possible statuses:
+
+- pending
+- success
+- failed
+- expired
+
+---
+
+# 4. Payment Webhook System
+
+Create a secure webhook endpoint to receive payment gateway callbacks.
+
+## Endpoint Example
+
+POST `/api/v1/webhook/payment`
+
+## Requirements
+
+- Verify webhook authenticity using a unique signature
+- Signature verification must use HMAC SHA256
+- Reject invalid webhook requests
+- Validate transaction exists
+- Match payment amount including randomized kobo
+- Update transaction status to `success`
+- Save webhook payload logs
+- Prevent duplicate webhook processing
+
+## Example Signature Header
+
+```http
+X-Payment-Signature: HASH_SIGNATURE
+```
+
+## Webhook Validation Logic
+
+- Use business webhook secret key
+- Hash request payload
+- Compare computed signature against incoming signature header
+- Only process verified requests
+
+---
+
+# 5. Registration Data Storage
+
+The system must support saving dynamic JSON registration data of varying structure and size.
+
+Examples:
+
+- Event registration
+- Admission forms
+- Product orders
+- Ticket bookings
+
+Requirements:
+
+- Store raw JSON safely
+- Link registration to transaction
+- Generate unique registration ID
+- Allow retrieval from admin dashboard
+
+---
+
+# 6. Admin Dashboard
+
+Build a modern responsive dashboard using Tailwind CSS.
+
+## Dashboard Features
+
+### Authentication
+
+- Admin login
+- Session management
+- Password hashing
+- Role-based access (optional)
+
+### Business Management
+
+- Create business
+- Edit business
+- Delete business
+- View API credentials
+
+### Transaction Management
+
+- View all transactions
+- Search transactions
+- Filter by status
+- View payment details
+- View registration data
+- Manually refresh transaction status
+
+### Analytics
+
+- Total transactions
+- Successful payments
+- Pending payments
+- Revenue summary
+
+---
+
+# 7. Frontend Requirements
+
+Use:
+
+- Tailwind CSS
+- Responsive design
+- Modern UI/UX
+- Mobile-friendly layouts
+
+Recommended additions:
+
+- Data tables
+- Toast notifications
+- Loading states
+- Status badges
+- Modal components
+
+---
+
+# 8. Database Design
+
+Use MySQL. Add a general, complete all in one .sql file to be used for easy migration
+
+Recommended tables:
+
+## businesses
+
+- id
+- business_id
+- name
+- phone
+- email
+- public_key
+- secret_key
+- webhook_secret
+- status
+- created_at
+
+## transactions
+
+- id
+- transaction_id
+- business_id
+- email
+- original_amount
+- payable_amount
+- payment_status
+- registration_id
+- webhook_verified
+- created_at
+
+## registrations
+
+- id
+- registration_id
+- transaction_id
+- json_data
+- created_at
+
+## webhook_logs
+
+- id
+- transaction_id
+- payload
+- signature
+- status
+- created_at
+
+---
+
+# 9. Security Requirements
+
+Implement:
+
+- API authentication
+- HMAC webhook verification
+- CSRF protection
+- SQL injection prevention
+- XSS filtering
+- Rate limiting
+- Input validation
+- Secure password hashing
+- Environment variable configuration
+
+Never expose secret keys publicly.
+
+---
+
+# 10. Architecture Requirements
+
+Use clean modular architecture.
+
+Recommended structure:
+
+- Controllers
+- Services
+- Repositories
+- Models
+- Middleware/Filters
+- Helpers
+- Events
+
+Ensure maintainability and scalability.
+
+---
+
+# 11. Additional Requirements
+
+## Logging
+
+- Transaction logs
+- Webhook logs
+- Error logs
+- Authentication logs
+
+## Queue Suggestions (Optional)
+
+Support future queue integration for:
+
+- Webhook retries
+- Email sending
+- Background processing
+
+---
+
+# 12. Documentation
+
+Provide comprehensive documentation including:
+
+## README Contents
+
+- Project overview
+- Installation steps
+- Environment configuration
+- Database setup
+- Running migrations
+- Running seeders
+- API documentation
+- Webhook testing guide
+- Deployment instructions
+- Security recommendations
+
+---
+
+# 13. Deliverables
+
+The final project should include:
+
+- Complete CodeIgniter 4 backend
+- Tailwind CSS admin dashboard
+- REST API implementation
+- Database migrations
+- Seeders
+- API documentation
+- Postman collection
+- README documentation
+- Secure webhook implementation
+- Transaction polling endpoint
+
+---
+
+# 14. Coding Standards
+
+Requirements:
+
+- Clean code
+- PSR standards
+- Reusable components
+- Proper comments
+- Type-safe logic where applicable
+- Error handling
+- Validation handling
+- Scalable structure
+
+The application must be production-ready.

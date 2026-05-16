@@ -1,0 +1,118 @@
+{
+    "info": {
+        "name": "KoboTrack API",
+        "description": "Payment Verification & Registration Management Platform",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Transaction",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "pk_live_YOUR_PUBLIC_KEY",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Secret",
+                        "value": "sk_live_YOUR_SECRET_KEY",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"business_id\": \"BUS_001\",\n    \"email\": \"user@example.com\",\n    \"amount\": 5000\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/v1/transaction/create",
+                    "host": ["{{base_url}}"],
+                    "path": ["api", "v1", "transaction", "create"]
+                }
+            }
+        },
+        {
+            "name": "Transaction Status",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/v1/transaction/status/TXN_ABC123",
+                    "host": ["{{base_url}}"],
+                    "path": ["api", "v1", "transaction", "status", "TXN_ABC123"]
+                }
+            }
+        },
+        {
+            "name": "Webhook Payment",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-Payment-Signature",
+                        "value": "HMAC_SHA256_SIGNATURE",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"transaction_id\": \"TXN_ABC123\",\n    \"amount_paid\": 4999.37,\n    \"currency\": \"NGN\",\n    \"status\": \"completed\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/v1/webhook/payment",
+                    "host": ["{{base_url}}"],
+                    "path": ["api", "v1", "webhook", "payment"]
+                }
+            }
+        },
+        {
+            "name": "Create Transaction with Registration",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "pk_live_YOUR_PUBLIC_KEY",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Secret",
+                        "value": "sk_live_YOUR_SECRET_KEY",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"business_id\": \"BUS_001\",\n    \"email\": \"user@example.com\",\n    \"amount\": 10000,\n    \"registration\": {\n        \"full_name\": \"John Doe\",\n        \"event\": \"Tech Conference 2025\",\n        \"ticket_type\": \"VIP\",\n        \"quantity\": 2\n    }\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/v1/transaction/create",
+                    "host": ["{{base_url}}"],
+                    "path": ["api", "v1", "transaction", "create"]
+                }
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost/kobotrack"
+        }
+    ]
+}
