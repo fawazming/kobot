@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use CodeIgniter\API\ResponseTrait;
 use App\Controllers\BaseController;
 use App\Services\TransactionService;
 
