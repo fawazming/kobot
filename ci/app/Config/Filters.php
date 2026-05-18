@@ -19,12 +19,12 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'apiauth'       => \App\Filters\ApiAuth::class,
         'adminauth'     => \App\Filters\AdminAuth::class,
-        // 'cors'          => \App\Filters\Cors::class,
+        'cors'          => \App\Filters\Cors::class,
     ];
 
     public $globals = [
         'before' => [
-            // 'cors',
+            'cors',
         ],
         'after' => [
             'toolbar',

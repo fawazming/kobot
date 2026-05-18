@@ -15,8 +15,12 @@ class Cors implements FilterInterface
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header('Access-Control-Max-Age: 86400');
 
-        if ($request->getMethod() === 'options') {
-            die();
+       // 2. Handle HTTP OPTIONS preflight request
+        $method = $_SERVER['REQUEST_METHOD'] ?? $request->getMethod();
+        if (strtoupper($method) === "OPTIONS") {
+            // Exit early for preflight checks with a 200 OK status
+            header("HTTP/1.1 200 OK");
+            exit();
         }
     }
 
