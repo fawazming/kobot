@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['kobo', 'api'];    // Load kobo and api helpers globally
+    protected $helpers = ['kobo_helper', 'api_helper'];    // Load kobo and api helpers globally
 
     /**
      * Constructor.

@@ -54,9 +54,22 @@ class Transaction extends BaseController
         try {
             $result = $this->transactionService->create($data, $registrationData);
 
-            return $this->response
-                ->setStatusCode(201)
-                ->setJSON($result);
+            
+        $this->response->setHeader('Access-Control-Allow-Origin', '*');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // return $this->respond($data);
+        
+        return $this->response
+            ->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            ->setStatusCode(200)
+            ->setJSON($result);
+            // return $this->response
+            //     ->setStatusCode(201)
+            //     ->setJSON($result);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
             log_message('error', '[Transaction Create] ' . $e->getMessage());
@@ -92,8 +105,22 @@ class Transaction extends BaseController
                 ]);
         }
 
+        
+        $this->response->setHeader('Access-Control-Allow-Origin', '*');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // return $this->respond($data);
+        
         return $this->response
+            ->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             ->setStatusCode(200)
             ->setJSON($result);
+
+        // return $this->response
+        //     ->setStatusCode(200)
+        //     ->setJSON($result);
     }
 }

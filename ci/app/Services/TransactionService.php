@@ -87,7 +87,7 @@ class TransactionService
     public function getByTransactionId(string $transactionId): ?array
     {
         $result = $this->model->where('transaction_id', $transactionId)->first();
-        return $result ? $result->toArray() : null;
+        return $result ? $result : null;
     }
 
     public function getByAmount(float $amount): array
