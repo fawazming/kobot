@@ -150,7 +150,7 @@ class Transaction extends BaseController
         }
 
         $transactionStatus = is_array($transaction)
-            ? ($transaction['status'] ?? null)
+            ? ($transaction['payment_status'] ?? null)
             : ($transaction->status ?? null);
 
         if (!in_array(strtolower((string) $transactionStatus), ['success', 'paid', 'paid_for'], true)) {
@@ -195,7 +195,7 @@ class Transaction extends BaseController
                     ->setStatusCode(404)
                     ->setJSON([
                         'status' => false,
-                        'message' => 'Transaction not found or registration failed',
+                        'message' => 'Transaction not found or registration failed'
                     ]);
             }
 

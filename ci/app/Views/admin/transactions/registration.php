@@ -16,8 +16,29 @@
         <span class="text-xs text-gray-400">Transaction: <?= $registration['transaction_id'] ?></span>
     </div>
 
-    <div class="bg-gray-50 rounded-lg p-6 overflow-x-auto">
-        <pre class="text-sm font-mono text-gray-700 whitespace-pre-wrap"><?= json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) ?></pre>
+    <div class="overflow-hidden border border-gray-100 rounded-lg">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-100">
+                <tr>
+                    <th class="py-3 px-6">Field</th>
+                    <th class="py-3 px-6">Value</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <?php foreach ($jsonData as $key => $value): ?>
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="py-4 px-6 font-medium text-gray-700 capitalize"><?= str_replace(['_', '-'], ' ', $key) ?></td>
+                    <td class="py-4 px-6 text-gray-600">
+                        <?php if (is_array($value)): ?>
+                            <pre class="text-xs font-mono bg-gray-50 p-2 rounded"><?= json_encode($value, JSON_PRETTY_PRINT) ?></pre>
+                        <?php else: ?>
+                            <?= esc($value) ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 <?= $this->endSection() ?>

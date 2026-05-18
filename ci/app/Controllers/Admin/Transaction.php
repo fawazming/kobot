@@ -74,7 +74,7 @@ class Transaction extends BaseController
                 ->with('error', 'Registration not found');
         }
 
-        $data = $registration->toArray();
+        $data = $registration;
         $jsonData = json_decode($data['json_data'], true);
 
         return view('admin/transactions/registration', [
