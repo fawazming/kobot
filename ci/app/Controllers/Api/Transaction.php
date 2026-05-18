@@ -7,6 +7,8 @@ use App\Services\TransactionService;
 
 class Transaction extends BaseController
 {
+    use ResponseTrait;
+
     protected TransactionService $transactionService;
 
     public function __construct()
