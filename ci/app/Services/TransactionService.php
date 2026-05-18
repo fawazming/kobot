@@ -67,6 +67,34 @@ class TransactionService
         ];
     }
 
+    public function registration(string $transactionId, array $registrationData): ?array
+    {
+        $transaction = $this->model->where('transaction_id', $transactionId)->first();
+        if (!$transaction) {
+            return null;
+        }
+
+        $registrationId = $transaction['registration_id'];
+
+        $this->model->update($transaction['id'], [
+            'metadata' => json_encode($registrationData),
+            'registration_id' => $registrationId,
+        ]);
+
+        $this->registrationModel->insert([
+            'registration_id' => $registrationId,
+            'transaction_id'  => $transactionId,
+            'json_data'       => json_encode($registrationData),
+        ]);
+
+        return [
+            'status'          => true,
+            'transaction_id'  => $transactionId,
+            'registration_id' => $registrationId,
+            'message'         => 'Registration data saved successfully',
+        ];
+    }
+
     public function getStatus(string $transactionId): ?array
     {
         $result = $this->model->where('transaction_id', $transactionId)->first();

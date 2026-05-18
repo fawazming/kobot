@@ -25,6 +25,7 @@ $routes->group('api/v1', ['namespace' => 'App\Controllers\Api'], function ($rout
     $routes->group('transaction', ['filter' => 'apiauth'], function ($routes) {
         $routes->post('create', 'Api\Transaction::create');
         $routes->get('status/(:segment)', 'Api\Transaction::status/$1');
+        $routes->post('registration/(:segment)', 'Api\Transaction::registration/$1');
     });
 
     // Webhook (no API auth - uses signature verification)

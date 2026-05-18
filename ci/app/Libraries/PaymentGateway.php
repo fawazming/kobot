@@ -43,7 +43,7 @@ class PaymentGateway
 
     public static function calculatePayableAmount(float $amount): array
     {
-        $nairaDeduction = 100;
+        $nairaDeduction = 1;
         $remainingKobo = $amount - $nairaDeduction;
 
         if ($remainingKobo <= 0) {
